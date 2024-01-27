@@ -7,7 +7,6 @@
 
 from enum import Enum
 import tkinter as tk
-from typing import Final
 
 
 class Config(Enum):
