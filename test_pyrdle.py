@@ -62,13 +62,13 @@ def test_process_guess():
     gpg.process_guess()
     assert gpg.alphabet.get() == "AB D FG  JKLM  PQ   U  X Z"
     assert gpg.current_guess == 2
-    assert gpg.eval[1].get() == "NEWEST"
-    assert gpg.eval[1].tag_names(1.0) == ("centered", "lightgrey")
-    assert gpg.eval[1].tag_names(1.1) == ("centered", "green")
-    assert gpg.eval[1].tag_names(1.2) == ("centered", "lightgrey")
-    assert gpg.eval[1].tag_names(1.3) == ("centered", "yellow")
-    assert gpg.eval[1].tag_names(1.4) == ("centered", "yellow")
-    assert gpg.eval[1].tag_names(1.5) == ("centered", "green")
+    assert gpg.evalbox[1].get() == "NEWEST"
+    assert gpg.evalbox[1].tag_names(1.0) == ("centered", "lightgrey")
+    assert gpg.evalbox[1].tag_names(1.1) == ("centered", "green")
+    assert gpg.evalbox[1].tag_names(1.2) == ("centered", "lightgrey")
+    assert gpg.evalbox[1].tag_names(1.3) == ("centered", "yellow")
+    assert gpg.evalbox[1].tag_names(1.4) == ("centered", "yellow")
+    assert gpg.evalbox[1].tag_names(1.5) == ("centered", "green")
 
 
 def test_eval_letters():
@@ -77,21 +77,21 @@ def test_eval_letters():
     gel.eval_letters("CHERRY")
 
     assert gel.alphabet.get() == "AB D FG IJKLMNOPQ STUVWX Z"
-    assert gel.eval[gel.current_guess].get() == "CHERRY"
-    assert gel.eval[gel.current_guess].tag_names() == (
+    assert gel.evalbox[gel.current_guess].get() == "CHERRY"
+    assert gel.evalbox[gel.current_guess].tag_names() == (
         "sel",
         "centered",
         "lightgrey",
         "yellow",
         "green",
     )
-    assert gel.eval[gel.current_guess].tag_names(1.0) == ("centered", "yellow")
-    assert gel.eval[gel.current_guess].tag_names(1.1) == ("centered", "lightgrey")
-    assert gel.eval[gel.current_guess].tag_names(1.2) == ("centered", "yellow")
-    assert gel.eval[gel.current_guess].tag_names(1.3) == ("centered", "green")
-    assert gel.eval[gel.current_guess].tag_names(1.4) == ("centered", "yellow")
-    assert gel.eval[gel.current_guess].tag_names(1.5) == ("centered", "lightgrey")
-    assert gel.eval[gel.current_guess].tag_names(1.6) == ("centered",)
+    assert gel.evalbox[gel.current_guess].tag_names(1.0) == ("centered", "yellow")
+    assert gel.evalbox[gel.current_guess].tag_names(1.1) == ("centered", "lightgrey")
+    assert gel.evalbox[gel.current_guess].tag_names(1.2) == ("centered", "yellow")
+    assert gel.evalbox[gel.current_guess].tag_names(1.3) == ("centered", "green")
+    assert gel.evalbox[gel.current_guess].tag_names(1.4) == ("centered", "yellow")
+    assert gel.evalbox[gel.current_guess].tag_names(1.5) == ("centered", "lightgrey")
+    assert gel.evalbox[gel.current_guess].tag_names(1.6) == ("centered",)
 
 
 def test_game_solved():
@@ -108,12 +108,12 @@ def test_won_or_lost():
     assert gwol.score_display.cget("text") == "Won: 0  Lost: 0"
     assert gwol.window["background"] == "#9abdf5"
 
-    gwol.won_or_lost("CHERRY")
+    gwol.gui_update_win_loss("CHERRY")
     assert gwol.score == {"losses": 1, "wins": 0}
     assert gwol.score_display.cget("text") == "Won: 0  Lost: 1"
     assert gwol.window["background"] == "red"
 
-    gwol.won_or_lost("SECRET")
+    gwol.gui_update_win_loss("SECRET")
     assert gwol.score == {"losses": 1, "wins": 1}
     assert gwol.score_display.cget("text") == "Won: 1  Lost: 1"
     assert gwol.window["background"] == "green"
@@ -126,12 +126,12 @@ def test_handle_game_over():
     assert ghgo.window["background"] == "#9abdf5"
     assert ghgo.alphabet.get() == "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
     assert ghgo.user_input_text.get().strip() == ""
-    assert ghgo.eval[0].get() == ""
-    assert ghgo.eval[1].get() == ""
-    assert ghgo.eval[2].get() == ""
-    assert ghgo.eval[3].get() == ""
-    assert ghgo.eval[4].get() == ""
-    assert ghgo.eval[5].get() == ""
+    assert ghgo.evalbox[0].get() == ""
+    assert ghgo.evalbox[1].get() == ""
+    assert ghgo.evalbox[2].get() == ""
+    assert ghgo.evalbox[3].get() == ""
+    assert ghgo.evalbox[4].get() == ""
+    assert ghgo.evalbox[5].get() == ""
     assert ghgo.secret_word != "VICTOR"
     assert ghgo.current_guess == 0
 
