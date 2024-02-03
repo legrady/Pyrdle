@@ -27,7 +27,7 @@ class Game:
         "user_input_text",
         "secret_word",
         "user_input",
-        "eval",
+        "evalbox",
         "score_display",
         "quit",
         "current_guess",
@@ -87,9 +87,9 @@ class Game:
         the wrong position; and on a light grey background if it is not
         in the word at all.
         """
-        self.eval = [None] * cfg.MAX_GUESSES()
+        self.evalbox = [None] * cfg.MAX_GUESSES()
         for i in range(cfg.MAX_GUESSES()):
-            self.eval[i] = game_tk.Eval(self.window)
+            self.evalbox[i] = game_tk.Eval(self.window)
 
     def validate_user_keypress(self, *_):
         """Examine the player's latest keypress, that is, the last character
@@ -135,7 +135,7 @@ class Game:
         """
         prev_colour = cfg.BG_NONE()
         colour_start_index = 0
-        eval_text = self.eval[self.current_guess]
+        eval_text = self.evalbox[self.current_guess]
         eval_text.insert(cfg.TAG_START_INDEX(), word)
 
         for idx, char in enumerate(word):
@@ -163,7 +163,7 @@ class Game:
         game-board widgets to prepare for a new game, display the score,
         fetch a new secret word and reset the number of guesses used up.
         """
-        self.won_or_lost(word)
+        self.gui_update_win_loss(word)
 
         if not testing:
             messagebox.showinfo(
@@ -175,11 +175,11 @@ class Game:
             getattr(self, widget).reset()
         self.user_input_text.set(cfg.EMPTY_STRING())
         for i in cfg.WIDGETS_EVAL():
-            self.eval[i].reset()
+            self.evalbox[i].reset()
         self.fetch_word()
         self.current_guess = 0
 
-    def won_or_lost(self, word) -> (str, str):
+    def gui_update_win_loss(self, word) -> None:
         """If the player has guessed the secret word, they have won, otherwise
         they have lost. Update the stored score, generate a message for the
         scoreboard and set an appropriate background colour,
@@ -203,7 +203,7 @@ class Game:
         """Available guesses are 0, 1, 2 ... < MAX_GUESSES."""
         return cfg.MAX_GUESSES() <= 1 + self.current_guess
 
-    def game_solved(self, word: str) -> None:
+    def game_solved(self, word: str) -> bool:
         """If the players guess matches the secret word, the game is solved."""
         return word == self.secret_word
 
